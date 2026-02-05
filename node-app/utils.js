@@ -18,4 +18,5 @@ const getUserURL = function(url){
     const userValidation = validator.isURL(url);
     console.log(chalk.red.italic(userValidation));
 }
+
 export {getName , getUserEmail, getUserURL};
