@@ -2,6 +2,8 @@ import chalk from 'chalk';
 import yargs from 'yargs';
 import { hideBin } from 'yargs/helpers';
 
+
+
 // Initialize yargs instance
 const yargsInstance = yargs(hideBin(process.argv));
 
@@ -35,11 +37,24 @@ function listNames(){
 yargsInstance.command({
     command: "add",
     describe: "Add a new note",
-    handler: () => {
-        console.log(chalk.bold.green("Note successfully added to your code"));
-        startCounter(); // Start the counter
+    builder:{
+        title:{
+            describe:"adding note",
+            demandOption: true,
+            type: "string",
+        },
+        body:{
+            describe:"is the inside in the Note",
+            demandOption:true,
+            type:"string",
+        }
+    },
+    handler: (yargsInstance) => {
+        console.log("Title: ", yargsInstance.title);
+        console.log("Body: ", yargsInstance.body);
     }
 });
+
 
 yargsInstance.command({
     command: "List",
@@ -62,3 +77,6 @@ yargsInstance.command({
 
 // Parse the command-line arguments
 yargsInstance.parse();
+
+
+
