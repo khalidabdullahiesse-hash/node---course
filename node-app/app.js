@@ -1,6 +1,8 @@
 import chalk from 'chalk';
-import yargs from 'yargs';
+import yargs, { argv } from 'yargs';
 import { hideBin } from 'yargs/helpers';
+import note from './note.js';
+import { addNote } from './notes';
 
 
 
@@ -50,8 +52,7 @@ yargsInstance.command({
         }
     },
     handler: (yargsInstance) => {
-        console.log("Title: ", yargsInstance.title);
-        console.log("Body: ", yargsInstance.body);
+        addNote(argv.title, argv.body)
     }
 });
 
@@ -77,6 +78,3 @@ yargsInstance.command({
 
 // Parse the command-line arguments
 yargsInstance.parse();
-
-
-
