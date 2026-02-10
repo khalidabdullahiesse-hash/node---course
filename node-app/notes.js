@@ -1,3 +1,4 @@
+import chalk from 'chalk';
 import fs from 'fs';
 
 export const getNote = function() {
@@ -5,12 +6,22 @@ export const getNote = function() {
 }
 export const addNote = function(title, body){
     const notes = loadNote();
+    const duplicateNote = notes.filter(function(note){
+        return note.title === title;
+    });
 
-    notes.push({
-        title: title,
-        body: body,
-    })
-     saveNote(notes);
+    if(duplicateNote.length === 0){
+        notes.push({
+                title: title,
+                body: body,
+            })
+        saveNote(notes);
+         console.log(chalk.green.bold("Note Added Successfully"))
+
+    } else {
+        console.log(chalk.bold.red('The Note has been taken'))
+    }
+    
 }
 
 

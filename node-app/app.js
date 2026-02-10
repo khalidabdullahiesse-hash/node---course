@@ -22,7 +22,6 @@ yargsInstance.command({
     },
     handler: (argv) => {
         addNote(argv.title, argv.body)
-        console.log(chalk.green.bold("Note Added Successfully"))
     }
 })
 
