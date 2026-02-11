@@ -1,80 +1,72 @@
-import chalk from 'chalk';
-import yargs from 'yargs';
-import { hideBin } from 'yargs/helpers';
-
-
+import chalk from "chalk";
+import yargs from "yargs";
+import { hideBin } from "yargs/helpers";
 
 // Initialize yargs instance
 const yargsInstance = yargs(hideBin(process.argv));
 
 // Function to handle the interval counting
 export function startCounter(limit = 5) {
-    let count = 1;
+  let count = 1;
 
-    const intervalId = setInterval(() => {
-        console.log(count);
-        count++;
+  const intervalId = setInterval(() => {
+    console.log(count);
+    count++;
 
-        // Stop after reaching the limit
-        if (count > limit) {
-            clearInterval(intervalId);
-            console.log(chalk.blue.bold("Finished counting!"));
-        }
-    }, 500);
+    // Stop after reaching the limit
+    if (count > limit) {
+      clearInterval(intervalId);
+      console.log(chalk.blue.bold("Finished counting!"));
+    }
+  }, 500);
 }
-export function listNames(){
+export function listNames() {
+  const names = ["khalid", "siciid", "Cumar", "Asma"];
 
-    const names = ["khalid","siciid","Cumar","Asma"]
-
-    console.log(chalk.bold.blue(names[0]))
-    console.log(chalk.bold.red(names[1]))
-    console.log(chalk.bold.green(names[2]))
-    console.log(chalk.bold.black.bgWhite(names[3]))
-
-
+  console.log(chalk.bold.blue(names[0]));
+  console.log(chalk.bold.red(names[1]));
+  console.log(chalk.bold.green(names[2]));
+  console.log(chalk.bold.black.bgWhite(names[3]));
 }
 // Define the "add" command
 yargsInstance.command({
-    command: "add",
-    describe: "Add a new note",
-    builder:{
-        title:{
-            describe:"adding note",
-            demandOption: true,
-            type: "string",
-        },
-        body:{
-            describe:"is the inside in the Note",
-            demandOption:true,
-            type:"string",
-        }
+  command: "add",
+  describe: "Add a new note",
+  builder: {
+    title: {
+      describe: "adding note",
+      demandOption: true,
+      type: "string",
     },
-    handler: (yargsInstance) => {
-        
-    }
-});
-
-
-yargsInstance.command({
-    command: "List",
-    describe: "listing note",
-    handler: () => {
-        listNames();
-        console.log(chalk.bold.green("Note successfully added to your code"));
-        startCounter(); // Start the counter
-     }
+    body: {
+      describe: "is the inside in the Note",
+      demandOption: true,
+      type: "string",
+    },
+  },
+  handler: (yargsInstance) => {},
 });
 
 yargsInstance.command({
-    command: "Read",
-    describe: "Reading note",
-    handler: () => {
-        console.log(chalk.bold.green("Note Reading to your code"));
-        startCounter(); // Start the counter
-     }
+  command: "List",
+  describe: "listing note",
+  handler: () => {
+    listNames();
+    console.log(chalk.bold.green("Note successfully added to your code"));
+    startCounter(); // Start the counter
+  },
+});
+
+yargsInstance.command({
+  command: "Read",
+  describe: "Reading note",
+  handler: () => {
+    console.log(chalk.bold.green("Note Reading to your code"));
+    startCounter(); // Start the counter
+  },
 });
 
 // Parse the command-line arguments
 yargsInstance.parse();
 
-export default yargsInstance ; 
+export default yargsInstance;
