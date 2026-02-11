@@ -1,45 +1,31 @@
-import chalk from "chalk";
 import yargs from "yargs";
 import { hideBin } from "yargs/helpers";
-import { addNote } from "./notes.js";
+import chalk from "chalk";
+import { addNote, removeNote} from "./notes.js";
 
 const yargsInstance = yargs(hideBin(process.argv));
 
-// ADD COMMAND
+// ADD command
 yargsInstance.command({
   command: "add",
   describe: "Add a new note",
   builder: {
-    title: {
-      demandOption: true,
-      type: "string",
-    },
-    body: {
-      demandOption: true,
-      type: "string",
-    },
+    title: { demandOption: true, type: "string" },
+    body: { demandOption: true, type: "string" },
   },
-  handler: (argv) => {
-    addNote(argv.title, argv.body);
-  },
+  handler: (argv) => addNote(argv.title, argv.body),
 });
 
-// LIST COMMAND
+// DELETE command
 yargsInstance.command({
-  command: "list",
-  describe: "Listing notes",
-  handler: () => {
-    console.log(chalk.blue.bold("Listing notes..."));
-  },
-});
-
-// READ COMMAND
-yargsInstance.command({
-  command: "read",
-  describe: "Reading note",
-  handler: () => {
-    console.log(chalk.yellow.bold("Reading note..."));
-  },
+  command: "remove",
+  describe: "Delete a note by title",
+  builder: { title: 
+    { demandOption: true, 
+        type: "string" 
+    } 
+},
+  handler: (argv) => removeNote(argv.title),
 });
 
 yargsInstance.parse();
