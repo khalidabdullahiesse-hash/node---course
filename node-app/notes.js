@@ -1,12 +1,12 @@
 import fs from "fs";
 import chalk from "chalk";
-import { stringify } from "querystring";
-import { title } from "process";
+import _ from "lodash";
 
-// Load notes from file
+
+// Load notes
 export const loadNotes = () => {
   try {
-    const dataBuffer = fs.readFileSync("note.json");
+    const dataBuffer = fs.readFileSync("notes.json");
     const dataJSON = dataBuffer.toString();
     return JSON.parse(dataJSON);
   } catch (e) {
@@ -14,47 +14,40 @@ export const loadNotes = () => {
   }
 };
 
-// Save notes to file
+
+// Save notes
 export const saveNotes = (notes) => {
-  const dataJSON = JSON.stringify(notes);
+  const dataJSON = JSON.stringify(notes, null, 2);
   fs.writeFileSync("notes.json", dataJSON);
 };
 
-// Add a new note
+
+// Add note
 export const addNote = (title, body) => {
   const notes = loadNotes();
+
   const duplicate = notes.find(note => note.title === title);
 
   if (!duplicate) {
     notes.push({ title, body });
     saveNotes(notes);
-    console.log(chalk.green.bold("✅ Note added successfully!"));
+    console.log(chalk.green.bold("Note added successfully"));
   } else {
-    console.log(chalk.red.bold("❌ Note title already exists!"));
+    console.log(chalk.red.bold("Note title already exists"));
   }
 };
 
 
-const findNote = function(title){
-    const dataBuffer = fs.readFileSync('notes.json')
-    const dataJSON = dataBuffer.toString();
-    const data = JSON.parse(dataJSON);
-    if(data.find(note => note.title === title)){
-        return true
-    } else{
-        return false
-    }
+// Remove note
+export const removeNote = (title) => {
+  const notes = loadNotes();
 
-}
+  const filteredNotes = _.filter(notes, note => note.title !== title);
 
-// Delete a note by title
-export const removeNote = function(title){
-    findNote(title)
-    if(title == true){
-        notes.filter(title)
-        return chalk.bold.green("`the file scusscefully deleted`");
-    } else{
-        console.log(chalk.bold.red('`the file do not find in the JSON file`'))
-    }
-
-}
+  if (notes.length !== filteredNotes.length) {
+    saveNotes(filteredNotes);
+    console.log(chalk.green.bold("Note removed successfully"));
+  } else {
+    console.log(chalk.red.bold("Note not found"));
+  }
+};
