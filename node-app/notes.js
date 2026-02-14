@@ -2,7 +2,6 @@ import fs from "fs";
 import chalk from "chalk";
 import _ from "lodash";
 
-
 // Load notes
 export const loadNotes = () => {
   try {
@@ -14,19 +13,16 @@ export const loadNotes = () => {
   }
 };
 
-
 // Save notes
 export const saveNotes = (notes) => {
   const dataJSON = JSON.stringify(notes, null, 2);
   fs.writeFileSync("notes.json", dataJSON);
 };
 
-
 // Add note
 export const addNote = (title, body) => {
   const notes = loadNotes();
-
-  const duplicate = notes.find(note => note.title === title);
+  const duplicate = notes.find((note) => note.title === title);
 
   if (!duplicate) {
     notes.push({ title, body });
@@ -37,17 +33,27 @@ export const addNote = (title, body) => {
   }
 };
 
-
 // Remove note
 export const removeNote = (title) => {
   const notes = loadNotes();
-
-  const filteredNotes = _.filter(notes, note => note.title !== title);
-
-  if (notes.length !== filteredNotes.length) {
-    saveNotes(filteredNotes);
-    console.log(chalk.green.bold("Note removed successfully"));
+  const notesToKeep = notes.filter(function (note) {
+    return note.title !== title;
+  });
+  if (notes > notesToKeep) {
+    console.log(chalk.bgGreen.bold("Note Removed successfully"));
   } else {
-    console.log(chalk.red.bold("Note not found"));
+    console.log(chalk.bgRed.bold("Note title Not found"));
   }
+  saveNotes(notesToKeep);
+};
+
+export const listingNotes = function () {
+  const notes = loadNotes();
+
+  notes.forEach((note) => {
+    console.log(
+      chalk.bold.italic.cyan(note.title),
+      chalk.bold.italic.bgCyanBright(note.body),
+    );
+  });
 };

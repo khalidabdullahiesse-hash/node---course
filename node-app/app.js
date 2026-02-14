@@ -1,7 +1,7 @@
 import yargs from "yargs";
 import { hideBin } from "yargs/helpers";
 import chalk from "chalk";
-import { addNote, removeNote } from "./notes.js";
+import { addNote, removeNote, listingNotes } from "./notes.js";
 
 const yargsInstance = yargs(hideBin(process.argv));
 
@@ -22,6 +22,20 @@ yargsInstance.command({
   describe: "Delete a note by title",
   builder: { title: { demandOption: true, type: "string" } },
   handler: (argv) => removeNote(argv.title),
+});
+
+yargsInstance.command({
+  command: "list",
+  describe: "listing all notes",
+  builder: { title: { demandOption: true, type: "string" } },
+  handler: (argv) => listingNotes(argv.title),
+});
+
+yargsInstance.command({
+  command: "read",
+  describe: "reading all notes",
+  builder: { title: { demandOption: true, type: "string" } },
+  handler: (argv) => listingNotes(argv.title),
 });
 
 yargsInstance.parse();
